@@ -9,3 +9,10 @@
 
 > 本仓库是 HA7CH AI Native School 共修节点的实操项目，用来走通
 > **issue → branch → PR → diff → 验收 → merge** 全流程。
+
+## 怎么跑
+
+```bash
+python scripts/fetch_data.py --check
+
+零依赖，clone 下来就能跑。输出应能对照 docs/data-sources.md 第二节的表格。
