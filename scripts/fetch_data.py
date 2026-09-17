@@ -17,6 +17,12 @@ import sys
 import urllib.error
 import urllib.request
 
+# Windows 终端编码兜底：任何情况下都不因打印字符而崩
+try:
+    sys.stdout.reconfigure(errors="replace")
+except Exception:
+    pass
+
 # 候选数据源
 # size_hint 来自上游页面说明 / 公开资料，可能与实际略有出入
 SOURCES = [
@@ -66,21 +72,21 @@ def probe(url: str, expect: str) -> dict:
             verdict = _verdict(resp.status, ctype, expect)
             return {"status": f"HTTP {resp.status}", "size": size, "ctype": ctype, "verdict": verdict}
     except urllib.error.HTTPError as e:
-        return {"status": f"HTTP {e.code}", "size": "未知", "ctype": "-", "verdict": f"❌ 请求被拒（{e.reason}）"}
+        return {"status": f"HTTP {e.code}", "size": "未知", "ctype": "-", "verdict": f"[X] 请求被拒 ({e.reason})"}
     except Exception as e:
-        return {"status": "不可达", "size": "未知", "ctype": "-", "verdict": f"❌ {type(e).__name__}"}
+        return {"status": "不可达", "size": "未知", "ctype": "-", "verdict": f"[X] {type(e).__name__}"}
 
 
 def _verdict(status: int, ctype: str, expect: str) -> str:
     if status != 200:
-        return f"❌ 非 200"
+        return "[X] 非 200"
     if expect == "file":
         if "html" in ctype:
-            return "⚠️ 返回的是网页，不是文件 —— 这个地址不是直链"
+            return "[!] 返回的是网页，不是文件 -- 这个地址不是直链"
         if "octet-stream" in ctype or "mat" in ctype or "zip" in ctype:
-            return "✅ 像直链文件"
-        return f"🟡 内容类型存疑（{ctype}）"
-    return "✅ 可达"
+            return "[OK] 像直链文件"
+        return f"[?] 内容类型存疑 ({ctype})"
+    return "[OK] 可达"
 
 
 def _human(n: int) -> str:
