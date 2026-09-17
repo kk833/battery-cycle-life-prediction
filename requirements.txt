@@ -1,0 +1,9 @@
+# 第一版流水线的最小依赖
+# 注意：本 PR（数据源调研）本身**零依赖**，只用标准库，clone 下来就能跑：
+#     python scripts/fetch_data.py --check
+
+numpy>=1.26
+pandas>=2.0
+scipy>=1.11          # 读 .mat 原始数据
+scikit-learn>=1.4    # 基线之外的第一个模型
+matplotlib>=3.8      # 画衰减曲线与预测对比
