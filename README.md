@@ -13,5 +13,5 @@
 
 ```bash
 python scripts/fetch_data.py --check
-
+```
 零依赖，clone 下来就能跑。输出应能对照 docs/data-sources.md 第二节的表格。
