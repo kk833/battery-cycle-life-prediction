@@ -1,0 +1,17 @@
+# 数据文件（体积大，不进仓库）
+data/
+*.mat
+*.h5
+*.hdf5
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# 模型产物
+models/*.pkl
+models/*.joblib
+artifacts/
